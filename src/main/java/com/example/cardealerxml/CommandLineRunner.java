@@ -33,6 +33,8 @@ public class CommandLineRunner implements org.springframework.boot.CommandLineRu
     @Override
     public void run(String... args) throws Exception {
         //seedData();
+
+        this.xmlParser.marshalFile(this.customerService.getCustomerOrdered(), "src/main/resources/files/outputs/ordered-customers.xml");
     }
 
     private void seedData() throws JAXBException, FileNotFoundException {

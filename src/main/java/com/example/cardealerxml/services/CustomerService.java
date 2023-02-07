@@ -1,5 +1,6 @@
 package com.example.cardealerxml.services;
 
+import com.example.cardealerxml.models.dtos.CustomerRootExportDto;
 import com.example.cardealerxml.models.entities.Customer;
 import com.example.cardealerxml.models.dtos.CustomerAddDto;
 
@@ -8,4 +9,5 @@ public interface CustomerService {
 
     Customer getRandomCustomer();
 
+    CustomerRootExportDto getCustomerOrdered();
 }

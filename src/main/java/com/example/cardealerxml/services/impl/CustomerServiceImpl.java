@@ -1,13 +1,17 @@
 package com.example.cardealerxml.services.impl;
 
 import com.example.cardealerxml.models.dtos.CustomerAddDto;
+import com.example.cardealerxml.models.dtos.CustomerExportDto;
+import com.example.cardealerxml.models.dtos.CustomerRootExportDto;
 import com.example.cardealerxml.models.entities.Customer;
 import com.example.cardealerxml.repositories.CustomerRepository;
 import com.example.cardealerxml.services.CustomerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -29,6 +33,12 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer getRandomCustomer() {
         long randomId = new Random().nextInt((int) this.customerRepository.count()) + 1;
         return this.customerRepository.findById(randomId).get();
+    }
+
+    @Override
+    public CustomerRootExportDto getCustomerOrdered() {
+        CustomerExportDto[] customerExportDtos = this.modelMapper.map(this.customerRepository.getAllOrderedByBirthDate(), CustomerExportDto[].class);
+        return new CustomerRootExportDto(Arrays.stream(customerExportDtos).collect(Collectors.toList()));
     }
 
 }
