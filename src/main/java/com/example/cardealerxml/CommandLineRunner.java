@@ -34,6 +34,17 @@ public class CommandLineRunner implements org.springframework.boot.CommandLineRu
     public void run(String... args) throws Exception {
         //seedData();
 
+        //orderedCustomers();
+
+        //carsFromMakeToyota();
+    }
+
+    private void carsFromMakeToyota() throws JAXBException {
+        this.xmlParser.marshalFile(this.carService.getCarsByMake("Toyota"), "src/main/resources/files/outputs/toyota-cars.xml");
+    }
+
+    // Query 1 – Ordered Customers
+    private void orderedCustomers() throws JAXBException {
         this.xmlParser.marshalFile(this.customerService.getCustomerOrdered(), "src/main/resources/files/outputs/ordered-customers.xml");
     }
 

@@ -1,6 +1,8 @@
 package com.example.cardealerxml.services.impl;
 
 import com.example.cardealerxml.models.dtos.CarAddDto;
+import com.example.cardealerxml.models.dtos.CarExportDto;
+import com.example.cardealerxml.models.dtos.CarRootExportDto;
 import com.example.cardealerxml.models.entities.Car;
 import com.example.cardealerxml.models.entities.Part;
 import com.example.cardealerxml.repositories.CarRepository;
@@ -10,9 +12,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -44,6 +48,12 @@ public class CarServiceImpl implements CarService {
     public Car getRandomCar() {
         long randomId = new Random().nextInt((int) this.carRepository.count()) + 1;
         return this.carRepository.findById(randomId).get();
+    }
+
+    @Override
+    public CarRootExportDto getCarsByMake(String make) {
+        CarExportDto[] carExportDto = this.modelMapper.map(this.carRepository.findAllByMakeOrderByModelAscTravelledDistanceDesc(make), CarExportDto[].class);
+        return new CarRootExportDto(Arrays.stream(carExportDto).collect(Collectors.toList()));
     }
 
 }
