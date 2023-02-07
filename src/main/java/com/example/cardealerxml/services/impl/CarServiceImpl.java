@@ -1,8 +1,6 @@
 package com.example.cardealerxml.services.impl;
 
-import com.example.cardealerxml.models.dtos.CarAddDto;
-import com.example.cardealerxml.models.dtos.CarExportDto;
-import com.example.cardealerxml.models.dtos.CarRootExportDto;
+import com.example.cardealerxml.models.dtos.*;
 import com.example.cardealerxml.models.entities.Car;
 import com.example.cardealerxml.models.entities.Part;
 import com.example.cardealerxml.repositories.CarRepository;
@@ -12,10 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,6 +49,20 @@ public class CarServiceImpl implements CarService {
     public CarRootExportDto getCarsByMake(String make) {
         CarExportDto[] carExportDto = this.modelMapper.map(this.carRepository.findAllByMakeOrderByModelAscTravelledDistanceDesc(make), CarExportDto[].class);
         return new CarRootExportDto(Arrays.stream(carExportDto).collect(Collectors.toList()));
+    }
+
+    @Override
+    public CarsWithPartsExportDto getAllCars() {
+        List<Car> cars = this.carRepository.findAll();
+        List<CarWithPartsExportDto> carWithPartsExportDtos = new ArrayList<>();
+        cars.forEach(car -> {
+            CarWithPartsExportDto carWithPartsExportDto = this.modelMapper.map(car, CarWithPartsExportDto.class);
+            PartExportDto[] partExportDto = this.modelMapper.map(car.getParts(), PartExportDto[].class);
+            carWithPartsExportDto.setPartsExportDto(new PartsExportDto(Arrays.stream(partExportDto).collect(Collectors.toList())));
+            carWithPartsExportDtos.add(carWithPartsExportDto);
+        });
+
+        return new CarsWithPartsExportDto(carWithPartsExportDtos);
     }
 
 }

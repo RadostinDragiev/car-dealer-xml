@@ -39,6 +39,13 @@ public class CommandLineRunner implements org.springframework.boot.CommandLineRu
         //carsFromMakeToyota();
 
         //localSupplier();
+
+        carsWithTheirParts();
+    }
+
+    // Query 4 – Cars with Their List of Parts
+    private void carsWithTheirParts() throws JAXBException {
+        this.xmlParser.marshalFile(this.carService.getAllCars(), "src/main/resources/files/outputs/cars-and-parts.xml");
     }
 
     // Query 3 – Local Suppliers
