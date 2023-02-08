@@ -40,7 +40,14 @@ public class CommandLineRunner implements org.springframework.boot.CommandLineRu
 
         //localSupplier();
 
-        carsWithTheirParts();
+        //carsWithTheirParts();
+
+        //totalSalesByCustomer();
+    }
+
+    // Query 5 – Total Sales by Customer
+    private void totalSalesByCustomer() throws JAXBException {
+        this.xmlParser.marshalFile(this.customerService.getTotalSalesByCustomer(), "src/main/resources/files/outputs/customers-total-sales.xml");
     }
 
     // Query 4 – Cars with Their List of Parts
