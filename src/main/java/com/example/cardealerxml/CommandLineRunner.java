@@ -43,6 +43,13 @@ public class CommandLineRunner implements org.springframework.boot.CommandLineRu
         //carsWithTheirParts();
 
         //totalSalesByCustomer();
+
+        //salesWithDiscount();
+    }
+
+    // Query 6 – Sales with Applied Discount
+    private void salesWithDiscount() throws JAXBException {
+        this.xmlParser.marshalFile(this.saleService.salesWithDiscount(), "src/main/resources/files/outputs/sales-discounts.xml");
     }
 
     // Query 5 – Total Sales by Customer
